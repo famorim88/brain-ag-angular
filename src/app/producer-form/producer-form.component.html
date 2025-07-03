@@ -1,0 +1,40 @@
+<div class="form-container">
+  <h1 style="text-align: center; margin-bottom: 30px; color: #333;">
+    {{ isEditMode ? 'Edit Producer' : 'Register New Producer' }}
+  </h1>
+  <form [formGroup]="producerForm" (ngSubmit)="onSubmit()">
+    <div class="culture-section">
+      <h2>Cultures</h2>
+      <form [formGroup]="cultureForm" (ngSubmit)="addCulture()"> <div class="form-group">
+          <label for="culture_crop_year">Crop Year</label>
+          <input type="text" id="culture_crop_year" formControlName="crop_year" placeholder="Ex: Safra 2023" />
+          <div *ngIf="cultureForm.get('crop_year')?.invalid && cultureForm.get('crop_year')?.touched" class="error-message">
+            Crop Year is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="culture_name">Culture Name</label>
+          <input type="text" id="culture_name" formControlName="name" placeholder="Ex: Soy, Corn" />
+          <div *ngIf="cultureForm.get('name')?.invalid && cultureForm.get('name')?.touched" class="error-message">
+            Culture Name is required.
+          </div>
+        </div>
+        <button type="submit" class="add-culture-button">Add Culture</button>
+      </form>
+
+      <div *ngIf="cultures.controls.length > 0" class="cultures-list">
+        <h3>Added Cultures:</h3>
+        <div *ngFor="let culture of cultures.controls; let i = index" class="culture-item">
+          <span>{{ culture.get('crop_year')?.value }} - {{ culture.get('name')?.value }}</span>
+          <button type="button" class="remove-culture-button" (click)="removeCulture(i)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="submitError" class="error-message">{{ submitError }}</div>
+
+    <button type="submit" [disabled]="loading" class="submit-button">
+      {{ loading ? 'Processing...' : (isEditMode ? 'Update Producer' : 'Register Producer') }}
+    </button>
+  </form>
+</div>

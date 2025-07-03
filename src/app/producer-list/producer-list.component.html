@@ -1,0 +1,44 @@
+<div class="producer-list-container">
+  <h1>Registered Rural Producers</h1>
+
+  <button class="add-button" (click)="goToNewProducer()">Register New Producer</button>
+
+  <div *ngIf="loading" class="loading-message">Loading producers...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && producers.length === 0" class="no-producers-message">
+    No producers registered yet.
+  </div>
+
+  <div *ngIf="producers.length > 0" class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Farm Name</th>
+          <th>City</th>
+          <th>State</th>
+          <th>CPF/CNPJ</th>
+          <th>Total Area (ha)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producer of producers">
+          <td>{{ producer.id }}</td>
+          <td>{{ producer.name }}</td>
+          <td>{{ producer.farm_name }}</td>
+          <td>{{ producer.city }}</td>
+          <td>{{ producer.state }}</td>
+          <td>{{ producer.cpf_cnpj }}</td>
+          <td>{{ producer.total_area }}</td>
+          <td>
+            <button class="action-button edit-button" (click)="editProducer(producer.id)">Edit</button>
+            <button class="action-button delete-button" (click)="deleteProducer(producer.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
